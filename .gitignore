@@ -5,3 +5,5 @@ __pycache__/
 *.tmp
 # Log files
 *.log
+*.db
+settings.json

@@ -1,0 +1,12 @@
+[tool.ruff]
+target-version = "py311"   # or 310 / 312
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]   # errors, pyflakes, isort, bugbear, pyupgrade
+ignore = ["B008"]                     # FastAPI default-factory pattern
+fixable = ["ALL"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
