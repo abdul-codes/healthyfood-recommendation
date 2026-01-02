@@ -22,8 +22,8 @@ NUTRITION_CACHE_TTL_DAYS = 30
 
 
 def _get_request_hash(request: RecommendationRequest) -> str:
-    # Use model_dump_json to get a consistent JSON string representation
-    request_string = request.model_dump_json(sort_keys=True)
+    request_dict = request.model_dump()
+    request_string = json.dumps(request_dict, sort_keys=True)
     return hashlib.sha256(request_string.encode()).hexdigest()
 
 
