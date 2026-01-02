@@ -59,7 +59,6 @@ export function SearchForm({ onSubmit, isLoading }: SearchFormProps) {
             value={searchType}
             onValueChange={(value) => setSearchType(value as SearchType)}
             disabled={isLoading}
-            size="lg"
           >
             <SelectTrigger
               id="search-type"
