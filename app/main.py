@@ -32,6 +32,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://localhost:5173",
+        "healthyfood-recommendation.vercel.app"
     ],  # React/Vite dev servers
     allow_credentials=True,
     allow_methods=["*"],
