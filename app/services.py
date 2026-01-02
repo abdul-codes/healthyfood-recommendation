@@ -4,14 +4,14 @@ import re
 from typing import Any, cast
 from datetime import datetime, timedelta, timezone
 
-from google import genai
+import google.generativeai as genai
 from sqlalchemy.future import select
 
 from app.config import GEMINI_API_KEY
 from app.db import AsyncSessionLocal, NutritionCache
 from app.models import (
     DietaryPrinciple,
-    FoodItem,  
+    FoodItem,
     FoodRecommendationResponse,
     RecommendationRequest,
     SearchType,
@@ -49,7 +49,9 @@ async def get_recommendations(
     async with AsyncSessionLocal() as db:
         try:
             result = await db.execute(
-                select(NutritionCache).where(NutritionCache.request_hash == request_hash)
+                select(NutritionCache).where(
+                    NutritionCache.request_hash == request_hash
+                )
             )
             cached = result.scalar_one_or_none()
 
