@@ -90,7 +90,7 @@ export function SearchForm({ onSubmit, isLoading }: SearchFormProps) {
               id="search-value"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder={SEARCH_PLACEHOLDERS[searchType]}
+              placeholder={SEARCH_TYPE_DESCRIPTIONS[searchType]}
               className="pl-10 w-full border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
               disabled={isLoading}
               required
