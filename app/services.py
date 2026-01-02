@@ -4,7 +4,7 @@ import re
 from typing import Any, cast
 from datetime import datetime, timedelta, timezone
 
-import google.generativeai as genai
+from google.genai import Client as genai, types
 from sqlalchemy.future import select
 
 from app.config import GEMINI_API_KEY
@@ -92,13 +92,17 @@ async def get_recommendations(
         """
 
         try:
-            client = (
-                genai.Client(api_key=GEMINI_API_KEY)
-                if GEMINI_API_KEY
-                else genai.Client()
-            )
+            client = genai.Client(api_key=GEMINI_API_KEY)
+            if not GEMINI_API_KEY:
+                client = genai.Client()
             response = await client.aio.models.generate_content(
-                model="gemini-2.5-flash", contents=full_prompt
+                model="gemini-2.5-flash",
+                contents=types.Content(
+                    parts=[types.Part(text=full_prompt)], role="user"
+                ),
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json"
+                ),
             )
             if response.text:
                 cleaned_json = _clean_json_response(response.text)
