@@ -16,10 +16,21 @@ interface SearchFormProps {
   isLoading: boolean;
 }
 
-const SEARCH_PLACEHOLDERS: Record<SearchType, string> = {
-  condition: "e.g., High Blood Pressure, Diabetes",
-  goal: "e.g., Weight Loss, Build Muscle",
-  country: "e.g., Nigeria, Japan, Brazil",
+const SEARCH_TYPE_DESCRIPTIONS: Record<SearchType, string> = {
+  condition: "Find foods for specific health conditions like diabetes, hypertension, or allergies",
+  goal: "Get recommendations for fitness objectives like weight loss, muscle building, or improved energy",
+  country: "Discover traditional foods and cuisines from different regions and cultures",
+};
+
+const getSearchTypeLabel = (type: SearchType): string => {
+  switch (type) {
+    case "condition":
+      return "Health Condition";
+    case "goal":
+      return "Health Goal";
+    case "country":
+      return "Country Name";
+  }
 };
 
 export function SearchForm({ onSubmit, isLoading }: SearchFormProps) {
@@ -48,6 +59,7 @@ export function SearchForm({ onSubmit, isLoading }: SearchFormProps) {
             value={searchType}
             onValueChange={(value) => setSearchType(value as SearchType)}
             disabled={isLoading}
+            size="lg"
           >
             <SelectTrigger
               id="search-type"
@@ -56,11 +68,14 @@ export function SearchForm({ onSubmit, isLoading }: SearchFormProps) {
               <SelectValue placeholder="Select a type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="condition">Health Condition</SelectItem>
-              <SelectItem value="goal">Health Goal</SelectItem>
-              <SelectItem value="country">Foods by Country</SelectItem>
+              <SelectItem value="condition">Search by Health Condition</SelectItem>
+              <SelectItem value="goal">Search by Health Goal</SelectItem>
+              <SelectItem value="country">Explore by Country</SelectItem>
             </SelectContent>
           </Select>
+          <div className="text-xs text-gray-500 mt-2 bg-blue-50 p-3 rounded-md border border-blue-200">
+            <strong>Example: </strong>{SEARCH_TYPE_DESCRIPTIONS[searchType]}
+          </div>
         </div>
 
         <div className="md:col-span-2">
@@ -68,7 +83,7 @@ export function SearchForm({ onSubmit, isLoading }: SearchFormProps) {
             htmlFor="search-value"
             className="block text-sm font-medium text-gray-700 mb-1.5"
           >
-            {searchType.charAt(0).toUpperCase() + searchType.slice(1)}
+            {getSearchTypeLabel(searchType)}
           </label>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -83,9 +98,10 @@ export function SearchForm({ onSubmit, isLoading }: SearchFormProps) {
             />
           </div>
         </div>
-      </div>
+        </div>
 
-      <div>
+        {searchType !== "country" && (
+        <div>
         <label
           htmlFor="country-constraint"
           className="block text-sm font-medium text-gray-700 mb-1.5"
@@ -100,10 +116,11 @@ export function SearchForm({ onSubmit, isLoading }: SearchFormProps) {
           className="w-full border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
           disabled={isLoading}
         />
-        <p className="text-xs text-gray-500 mt-1.5">
-          Providing a country helps in suggesting locally available foods.
-        </p>
-      </div>
+          <p className="text-xs text-gray-500 mt-1.5">
+            Providing a country helps in suggesting locally available foods.
+          </p>
+        </div>
+        )}
 
       <div className="pt-2">
         <Button
