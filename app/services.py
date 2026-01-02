@@ -92,9 +92,9 @@ async def get_recommendations(
         """
 
         try:
-            client = genai.Client(api_key=GEMINI_API_KEY)
+            client = genai(api_key=GEMINI_API_KEY)
             if not GEMINI_API_KEY:
-                client = genai.Client()
+                client = genai()
             response = await client.aio.models.generate_content(
                 model="gemini-2.5-flash",
                 contents=types.Content(
